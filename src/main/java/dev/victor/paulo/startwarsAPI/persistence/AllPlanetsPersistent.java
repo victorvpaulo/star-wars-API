@@ -1,6 +1,7 @@
 package dev.victor.paulo.startwarsAPI.persistence;
 
 import dev.victor.paulo.startwarsAPI.persistence.converter.DocumentToPlanet;
+import dev.victor.paulo.startwarsAPI.persistence.converter.PlanetToDocument;
 import dev.victor.paulo.startwarsAPI.persistence.model.PlanetDocument;
 import dev.victor.paulo.startwarsAPI.persistence.repository.PlanetRepository;
 import dev.victor.paulo.startwarsAPI.service.collections.AllPlanets;
@@ -18,7 +19,7 @@ public class AllPlanetsPersistent implements AllPlanets {
 
     @Override
     public Planet add(Planet planet) {
-        PlanetDocument documentToSave = toDocument(planet);
+        PlanetDocument documentToSave = PlanetToDocument.convert(planet);
         PlanetDocument savedDocument = repository.save(documentToSave);
         return DocumentToPlanet.convert(savedDocument);
     }
@@ -27,9 +28,5 @@ public class AllPlanetsPersistent implements AllPlanets {
     public List<Planet> getAll() {
         List<PlanetDocument> allPlanets = repository.findAll();
         return DocumentToPlanet.convert(allPlanets);
-    }
-
-    private PlanetDocument toDocument(Planet planet) {
-        return new PlanetDocument(planet.id(), planet.name(), planet.climate(), planet.terrain());
     }
 }

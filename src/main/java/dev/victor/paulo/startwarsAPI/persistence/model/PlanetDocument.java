@@ -8,18 +8,18 @@ import java.util.Objects;
 @Document(collection = "planets")
 public class PlanetDocument {
 
+    @Id
+    private final String id;
+    private final String name;
+    private final String climate;
+    private final String terrain;
+
     public PlanetDocument(String id, String name, String climate, String terrain) {
         this.id = id;
         this.name = name;
         this.climate = climate;
         this.terrain = terrain;
     }
-
-    @Id
-    private final String id;
-    private final String name;
-    private final String climate;
-    private final String terrain;
 
     public String getId() {
         return id;

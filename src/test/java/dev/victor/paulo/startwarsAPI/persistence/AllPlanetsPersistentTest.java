@@ -4,14 +4,18 @@ import dev.victor.paulo.startwarsAPI.persistence.model.PlanetDocument;
 import dev.victor.paulo.startwarsAPI.persistence.repository.PlanetRepository;
 import dev.victor.paulo.startwarsAPI.service.collections.AllPlanets;
 import dev.victor.paulo.startwarsAPI.service.model.Planet;
+import dev.victor.paulo.startwarsAPI.web.PlanetFilters;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -55,12 +59,17 @@ class AllPlanetsPersistentTest {
         assertThat(addedPlanet).isEqualTo(expectedAddedPlanet);
     }
 
+//https://www.baeldung.com/queries-in-spring-data-mongodb
+
     @Test
-    public void getAll_should_return_all_planets() {
-        when(repository.findAll()).thenReturn(Arrays.asList(EXPECTED_DOCUMENT_1, EXPECTED_DOCUMENT_2, EXPECTED_DOCUMENT_3));
+    public void getAll_should_build_query_example_and_return_planets() {
+        PlanetFilters filters = filters(null, null, null);
+        Example<PlanetDocument> expectedExample = expectedExampleFor(filters);
+        when(repository.findAll(expectedExample)).thenReturn(Arrays.asList(EXPECTED_DOCUMENT_1, EXPECTED_DOCUMENT_2, EXPECTED_DOCUMENT_3));
 
-        List<Planet> allPlanets = this.allPlanets.getAll();
+        List<Planet> allPlanets = this.allPlanets.getAllBy(filters);
 
+        verify(repository).findAll(expectedExample);
         assertThat(allPlanets).containsExactly(
                 EXPECTED_PLANET_1,
                 EXPECTED_PLANET_2,
@@ -69,11 +78,42 @@ class AllPlanetsPersistentTest {
     }
 
     @Test
-    public void getAll_should_return_empty_list_when_there_is_no_data() {
-        when(repository.findAll()).thenReturn(Collections.emptyList());
+    public void getAll_should_build_query_example_and_return_empty_list_when_there_is_no_data() {
+        PlanetFilters filters = filters("Tatooine", "Temperate", "Grasslands, Mountains");
+        Example<PlanetDocument> expectedExample = expectedExampleFor(filters);
+        when(repository.findAll(expectedExample)).thenReturn(Collections.emptyList());
 
-        List<Planet> allPlanets = this.allPlanets.getAll();
+        List<Planet> allPlanets = this.allPlanets.getAllBy(filters);
 
+        verify(repository).findAll(expectedExample);
         assertThat(allPlanets).isEmpty();
+    }
+
+    @Test
+    public void when_planet_exists_byId_should_return_planet() {
+        when(repository.findById(EXPECTED_PLANET_1.id())).thenReturn(Optional.of(EXPECTED_DOCUMENT_1));
+
+        Optional<Planet> planet = allPlanets.byId(EXPECTED_PLANET_1.id());
+
+        assertThat(planet).contains(EXPECTED_PLANET_1);
+    }
+
+    @Test
+    public void when_planet_not_exists_byId_should_return_empty_optional() {
+        String nonExistingId = "607a89fa7135a8d2cf3af7dd";
+        when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
+
+        Optional<Planet> planet = allPlanets.byId(nonExistingId);
+
+        assertThat(planet).isNotPresent();
+    }
+
+    private PlanetFilters filters(String name, String climate, String terrain) {
+        return new PlanetFilters(name, climate, terrain);
+    }
+
+    private Example<PlanetDocument> expectedExampleFor(PlanetFilters filters) {
+        ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
+        return Example.of(new PlanetDocument(null, filters.name(), filters.climate(), filters.terrain()), matcher);
     }
 }

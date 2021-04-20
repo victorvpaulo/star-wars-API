@@ -12,13 +12,18 @@ import org.springframework.http.ResponseEntity;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class FindPlanetsEndpointsTest {
 
+    public static final PlanetResponse EXPECTED_RESPONSE_1 = new PlanetResponse("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert");
+    public static final PlanetResponse EXPECTED_RESPONSE_2 = new PlanetResponse("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains");
+    public static final PlanetResponse EXPECTED_RESPONSE_3 = new PlanetResponse("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests");
     @MockBean
     private FindPlanetsService find;
 
@@ -26,25 +31,51 @@ class FindPlanetsEndpointsTest {
     private FindPlanetsEndpoints findPlanetsEndpoints;
 
     @Test
-    public void when_exists_data_findAll_should_return_all_planets_and_status_code_200() {
-        PlanetResponse expectedResponse1 = new PlanetResponse("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert");
-        PlanetResponse expectedResponse2 = new PlanetResponse("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains");
-        PlanetResponse expectedResponse3 = new PlanetResponse("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests");
-        when(find.findAll()).thenReturn(Arrays.asList(expectedResponse1, expectedResponse2, expectedResponse3));
+    public void when_exists_data_findAllByFilters_should_return_all_planets_and_status_code_200() {
+        PlanetFilters filters = filters(null, null, null);
 
-        ResponseEntity<List<PlanetResponse>> response = findPlanetsEndpoints.findAll();
+        when(find.findAllBy(filters)).thenReturn(Arrays.asList(EXPECTED_RESPONSE_1, EXPECTED_RESPONSE_2, EXPECTED_RESPONSE_3));
 
+        ResponseEntity<List<PlanetResponse>> response = findPlanetsEndpoints.findAllByFilters(null, null, null);
+
+        verify(find).findAllBy(filters);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).containsExactly(expectedResponse1, expectedResponse2, expectedResponse3);
+        assertThat(response.getBody()).containsExactly(EXPECTED_RESPONSE_1, EXPECTED_RESPONSE_2, EXPECTED_RESPONSE_3);
     }
 
     @Test
-    public void when_no_data_findAll_should_return_empty_list_and_status_code_200() {
-        when(find.findAll()).thenReturn(Collections.emptyList());
+    public void when_no_data_findAllByFilters_should_return_empty_list_and_status_code_200() {
+        PlanetFilters filters = filters("Tatooine", "Temperate", "Grasslands, Mountains");
+        when(find.findAllBy(filters)).thenReturn(Collections.emptyList());
 
-        ResponseEntity<List<PlanetResponse>> response = findPlanetsEndpoints.findAll();
+        ResponseEntity<List<PlanetResponse>> response = findPlanetsEndpoints.findAllByFilters("Tatooine", "Temperate", "Grasslands, Mountains");
 
+        verify(find).findAllBy(filters);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEmpty();
+    }
+
+    @Test
+    public void when_planet_exists_findById_should_return_planet_and_status_code_200() {
+        when(find.byId(EXPECTED_RESPONSE_1.id())).thenReturn(Optional.of(EXPECTED_RESPONSE_1));
+
+        ResponseEntity<PlanetResponse> response = findPlanetsEndpoints.findById(EXPECTED_RESPONSE_1.id());
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(EXPECTED_RESPONSE_1);
+    }
+
+    @Test
+    public void when_planet_not_exists_findById_should_return_status_code_404() {
+        String nonExistingId = "607a89fa7135a8d2cf3af7dd";
+        when(find.byId(nonExistingId)).thenReturn(Optional.empty());
+
+        ResponseEntity<PlanetResponse> response = findPlanetsEndpoints.findById(nonExistingId);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    private PlanetFilters filters(String name, String climate, String terrain) {
+        return new PlanetFilters(name, climate, terrain);
     }
 }

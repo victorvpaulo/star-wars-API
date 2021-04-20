@@ -12,7 +12,6 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class PlanetToResponseTest {
 
-
     @Test
     public void should_convert() {
         Planet planet = new Planet("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert");

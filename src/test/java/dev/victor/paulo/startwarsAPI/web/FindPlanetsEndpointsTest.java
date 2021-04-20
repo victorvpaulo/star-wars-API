@@ -31,26 +31,26 @@ class FindPlanetsEndpointsTest {
     private FindPlanetsEndpoints findPlanetsEndpoints;
 
     @Test
-    public void when_exists_data_findAllByFilters_should_return_all_planets_and_status_code_200() {
+    public void when_exists_data_findByFilters_should_return_all_planets_and_status_code_200() {
         PlanetFilters filters = filters(null, null, null);
 
-        when(find.findAllBy(filters)).thenReturn(Arrays.asList(EXPECTED_RESPONSE_1, EXPECTED_RESPONSE_2, EXPECTED_RESPONSE_3));
+        when(find.byFilters(filters)).thenReturn(Arrays.asList(EXPECTED_RESPONSE_1, EXPECTED_RESPONSE_2, EXPECTED_RESPONSE_3));
 
-        ResponseEntity<List<PlanetResponse>> response = findPlanetsEndpoints.findAllByFilters(null, null, null);
+        ResponseEntity<List<PlanetResponse>> response = findPlanetsEndpoints.findByFilters(null, null, null);
 
-        verify(find).findAllBy(filters);
+        verify(find).byFilters(filters);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).containsExactly(EXPECTED_RESPONSE_1, EXPECTED_RESPONSE_2, EXPECTED_RESPONSE_3);
     }
 
     @Test
-    public void when_no_data_findAllByFilters_should_return_empty_list_and_status_code_200() {
+    public void when_no_data_findByFilters_should_return_empty_list_and_status_code_200() {
         PlanetFilters filters = filters("Tatooine", "Temperate", "Grasslands, Mountains");
-        when(find.findAllBy(filters)).thenReturn(Collections.emptyList());
+        when(find.byFilters(filters)).thenReturn(Collections.emptyList());
 
-        ResponseEntity<List<PlanetResponse>> response = findPlanetsEndpoints.findAllByFilters("Tatooine", "Temperate", "Grasslands, Mountains");
+        ResponseEntity<List<PlanetResponse>> response = findPlanetsEndpoints.findByFilters("Tatooine", "Temperate", "Grasslands, Mountains");
 
-        verify(find).findAllBy(filters);
+        verify(find).byFilters(filters);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEmpty();
     }

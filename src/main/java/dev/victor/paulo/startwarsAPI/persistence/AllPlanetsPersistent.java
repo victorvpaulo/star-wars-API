@@ -31,7 +31,7 @@ public class AllPlanetsPersistent implements AllPlanets {
     }
 
     @Override
-    public List<Planet> getAllBy(PlanetFilters filters) {
+    public List<Planet> byFilters(PlanetFilters filters) {
         Example<PlanetDocument> example = exampleFor(filters);
         List<PlanetDocument> allPlanets = repository.findAll(example);
         return DocumentToPlanet.convert(allPlanets);

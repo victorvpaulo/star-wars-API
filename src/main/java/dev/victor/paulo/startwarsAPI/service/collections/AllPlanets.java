@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface AllPlanets {
     Planet add(Planet planet);
 
-    List<Planet> getAllBy(PlanetFilters filters);
+    List<Planet> byFilters(PlanetFilters filters);
 
     Optional<Planet> byId(String id);
 }

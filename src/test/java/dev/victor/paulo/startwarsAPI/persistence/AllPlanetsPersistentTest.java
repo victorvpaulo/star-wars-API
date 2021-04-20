@@ -62,12 +62,12 @@ class AllPlanetsPersistentTest {
 //https://www.baeldung.com/queries-in-spring-data-mongodb
 
     @Test
-    public void getAll_should_build_query_example_and_return_planets() {
+    public void byFilters_should_build_query_example_and_return_planets() {
         PlanetFilters filters = filters(null, null, null);
         Example<PlanetDocument> expectedExample = expectedExampleFor(filters);
         when(repository.findAll(expectedExample)).thenReturn(Arrays.asList(EXPECTED_DOCUMENT_1, EXPECTED_DOCUMENT_2, EXPECTED_DOCUMENT_3));
 
-        List<Planet> allPlanets = this.allPlanets.getAllBy(filters);
+        List<Planet> allPlanets = this.allPlanets.byFilters(filters);
 
         verify(repository).findAll(expectedExample);
         assertThat(allPlanets).containsExactly(
@@ -78,12 +78,12 @@ class AllPlanetsPersistentTest {
     }
 
     @Test
-    public void getAll_should_build_query_example_and_return_empty_list_when_there_is_no_data() {
+    public void byFilters_should_build_query_example_and_return_empty_list_when_there_is_no_data() {
         PlanetFilters filters = filters("Tatooine", "Temperate", "Grasslands, Mountains");
         Example<PlanetDocument> expectedExample = expectedExampleFor(filters);
         when(repository.findAll(expectedExample)).thenReturn(Collections.emptyList());
 
-        List<Planet> allPlanets = this.allPlanets.getAllBy(filters);
+        List<Planet> allPlanets = this.allPlanets.byFilters(filters);
 
         verify(repository).findAll(expectedExample);
         assertThat(allPlanets).isEmpty();

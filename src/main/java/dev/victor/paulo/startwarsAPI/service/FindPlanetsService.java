@@ -17,8 +17,8 @@ public class FindPlanetsService {
     @Autowired
     private AllPlanets allPlanets;
 
-    public List<PlanetResponse> findAllBy(PlanetFilters filters) {
-        List<Planet> allPlanets = this.allPlanets.getAllBy(filters);
+    public List<PlanetResponse> byFilters(PlanetFilters filters) {
+        List<Planet> allPlanets = this.allPlanets.byFilters(filters);
 
         return PlanetToResponse.convert(allPlanets);
     }

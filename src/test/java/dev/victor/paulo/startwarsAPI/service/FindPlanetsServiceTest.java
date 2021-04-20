@@ -35,25 +35,25 @@ class FindPlanetsServiceTest {
     private FindPlanetsService findPlanets;
 
     @Test
-    public void when_exists_data_findAll_should_return_all_planets() {
+    public void when_exists_data_byFilters_should_return_all_planets() {
         PlanetFilters filters = filters(null, null, null);
-        when(allPlanets.getAllBy(filters)).thenReturn(Arrays.asList(PLANET_1, PLANET_2, PLANET_3));
+        when(allPlanets.byFilters(filters)).thenReturn(Arrays.asList(PLANET_1, PLANET_2, PLANET_3));
 
-        List<PlanetResponse> planets = findPlanets.findAllBy(filters);
+        List<PlanetResponse> planets = findPlanets.byFilters(filters);
 
-        verify(allPlanets).getAllBy(filters);
+        verify(allPlanets).byFilters(filters);
         assertThat(planets).containsExactly(EXPECTED_PLANET_RESPONSE_1, EXPECTED_PLANET_RESPONSE_2, EXPECTED_PLANET_RESPONSE_3);
     }
 
     @Test
-    public void when_no_data_findAll_should_return_empty_list() {
+    public void when_no_data_byFilters_should_return_empty_list() {
         PlanetFilters filters = filters("Tatooine", "Temperate", "Grasslands, Mountains");
 
-        when(allPlanets.getAllBy(filters)).thenReturn(Collections.emptyList());
+        when(allPlanets.byFilters(filters)).thenReturn(Collections.emptyList());
 
-        List<PlanetResponse> planets = findPlanets.findAllBy(filters);
+        List<PlanetResponse> planets = findPlanets.byFilters(filters);
 
-        verify(allPlanets).getAllBy(filters);
+        verify(allPlanets).byFilters(filters);
         assertThat(planets).isEmpty();
     }
 

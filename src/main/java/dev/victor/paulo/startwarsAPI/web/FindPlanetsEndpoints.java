@@ -18,12 +18,12 @@ public class FindPlanetsEndpoints {
     private FindPlanetsService find;
 
     @GetMapping
-    public ResponseEntity<List<PlanetResponse>> findAllByFilters(@RequestParam("name") String name,
-                                                                 @RequestParam("climate") String climate,
-                                                                 @RequestParam("terrain") String terrain) {
+    public ResponseEntity<List<PlanetResponse>> findByFilters(@RequestParam("name") String name,
+                                                              @RequestParam("climate") String climate,
+                                                              @RequestParam("terrain") String terrain) {
 
         PlanetFilters filters = filters(name, climate, terrain);
-        List<PlanetResponse> allPlanets = find.findAllBy(filters);
+        List<PlanetResponse> allPlanets = find.byFilters(filters);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(allPlanets);

@@ -43,6 +43,12 @@ public class AllPlanetsPersistent implements AllPlanets {
                 .map(DocumentToPlanet::convert);
     }
 
+    @Override
+    public void remove(Planet planet) {
+        PlanetDocument document = PlanetToDocument.convert(planet);
+        repository.delete(document);
+    }
+
     private Example<PlanetDocument> exampleFor(PlanetFilters filters) {
         String probe = filters.terrain();
         ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();

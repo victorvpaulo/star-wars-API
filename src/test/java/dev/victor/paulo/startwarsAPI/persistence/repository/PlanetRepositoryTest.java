@@ -18,7 +18,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 @DataMongoTest
 public class PlanetRepositoryTest {
 
-    public static final PlanetDocument PLANET_DOCUMET_1 = new PlanetDocument("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains");
+    public static final PlanetDocument PLANET_DOCUMENT_1 = new PlanetDocument("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains");
     public static final PlanetDocument PLANET_DOCUMENT_2 = new PlanetDocument("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests");
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -26,7 +26,7 @@ public class PlanetRepositoryTest {
     private PlanetRepository repository;
 
     private void setUpDataSet() {
-        mongoTemplate.save(PLANET_DOCUMET_1);
+        mongoTemplate.save(PLANET_DOCUMENT_1);
         mongoTemplate.save(PLANET_DOCUMENT_2);
     }
 
@@ -57,9 +57,9 @@ public class PlanetRepositoryTest {
     @Test
     public void when_planet_exists_findById_should_return_planet() {
         setUpDataSet();
-        Optional<PlanetDocument> document = repository.findById(PLANET_DOCUMET_1.getId());
+        Optional<PlanetDocument> document = repository.findById(PLANET_DOCUMENT_1.getId());
 
-        assertThat(document).contains(PLANET_DOCUMET_1);
+        assertThat(document).contains(PLANET_DOCUMENT_1);
     }
 
     @Test
@@ -78,7 +78,7 @@ public class PlanetRepositoryTest {
         Example<PlanetDocument> example = exampleWith(null, null, null);
         List<PlanetDocument> all = repository.findAll(example);
 
-        assertThat(all).containsExactly(PLANET_DOCUMET_1, PLANET_DOCUMENT_2);
+        assertThat(all).containsExactly(PLANET_DOCUMENT_1, PLANET_DOCUMENT_2);
     }
 
     @Test
@@ -96,15 +96,26 @@ public class PlanetRepositoryTest {
         Example<PlanetDocument> example = exampleWith(null, "Temperate", "Grasslands, Mountains");
         List<PlanetDocument> all = repository.findAll(example);
 
-        assertThat(all).containsExactly(PLANET_DOCUMET_1);
+        assertThat(all).containsExactly(PLANET_DOCUMENT_1);
     }
 
     @Test
     public void findAll_should_return_empty_list_when_there_is_no_planet_matching_example() {
         setUpDataSet();
-        
         Example<PlanetDocument> example = exampleWith("Alderaan", null, "Jungle, Rainforests");
+
         List<PlanetDocument> all = repository.findAll(example);
+
+        assertThat(all).isEmpty();
+    }
+
+    @Test
+    public void delete_should_delete_planet() {
+        setUpDataSet();
+
+        repository.delete(PLANET_DOCUMENT_1);
+
+        assertThat(mongoTemplate.findAll(PlanetDocument.class)).doesNotContain(PLANET_DOCUMENT_1);
     }
 
     private Example<PlanetDocument> exampleWith(String name, String climate, String terrain) {

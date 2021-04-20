@@ -108,6 +108,13 @@ class AllPlanetsPersistentTest {
         assertThat(planet).isNotPresent();
     }
 
+    @Test
+    public void remove_should_remove_planet() {
+        allPlanets.remove(EXPECTED_PLANET_1);
+
+        verify(repository).delete(EXPECTED_DOCUMENT_1);
+    }
+
     private PlanetFilters filters(String name, String climate, String terrain) {
         return new PlanetFilters(name, climate, terrain);
     }

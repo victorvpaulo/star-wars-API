@@ -12,4 +12,6 @@ public interface AllPlanets {
     List<Planet> byFilters(PlanetFilters filters);
 
     Optional<Planet> byId(String id);
+
+    void remove(Planet planet);
 }

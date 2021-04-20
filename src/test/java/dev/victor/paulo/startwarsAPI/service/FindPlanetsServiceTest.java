@@ -1,6 +1,7 @@
 package dev.victor.paulo.startwarsAPI.service;
 
 import dev.victor.paulo.startwarsAPI.service.collections.AllPlanets;
+import dev.victor.paulo.startwarsAPI.service.exception.PlanetNotFoundException;
 import dev.victor.paulo.startwarsAPI.service.model.Planet;
 import dev.victor.paulo.startwarsAPI.web.PlanetFilters;
 import dev.victor.paulo.startwarsAPI.web.dto.PlanetResponse;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -61,22 +63,21 @@ class FindPlanetsServiceTest {
     public void when_planet_exists_byId_should_return_planet(){
         when(allPlanets.byId(PLANET_1.id())).thenReturn(Optional.of(PLANET_1));
 
-        Optional<PlanetResponse> planet = findPlanets.byId(PLANET_1.id());
+        PlanetResponse planet = findPlanets.byId(PLANET_1.id());
 
-        assertThat(planet).contains(EXPECTED_PLANET_RESPONSE_1);
+        assertThat(planet).isEqualTo(EXPECTED_PLANET_RESPONSE_1);
+    }
+
+    @Test
+    public void when_planet_not_exists_byId_should_rise_exception(){
+        String nonExistingId = "607a89fa7135a8d2cf3af7dd";
+        when(allPlanets.byId(nonExistingId)).thenReturn(Optional.empty());
+
+        assertThrows(PlanetNotFoundException.class,
+                () -> findPlanets.byId(nonExistingId));
     }
 
     private PlanetFilters filters(String name, String climate, String terrain) {
         return new PlanetFilters(name, climate, terrain);
-    }
-
-    @Test
-    public void when_planet_not_exists_byId_should_return_empty_optional(){
-        String nonExistingId = "607a89fa7135a8d2cf3af7dd";
-        when(allPlanets.byId(nonExistingId)).thenReturn(Optional.empty());
-
-        Optional<PlanetResponse> planet = findPlanets.byId(nonExistingId);
-
-        assertThat(planet).isNotPresent();
     }
 }

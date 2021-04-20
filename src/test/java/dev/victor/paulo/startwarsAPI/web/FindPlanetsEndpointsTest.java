@@ -57,22 +57,12 @@ class FindPlanetsEndpointsTest {
 
     @Test
     public void when_planet_exists_findById_should_return_planet_and_status_code_200() {
-        when(find.byId(EXPECTED_RESPONSE_1.id())).thenReturn(Optional.of(EXPECTED_RESPONSE_1));
+        when(find.byId(EXPECTED_RESPONSE_1.id())).thenReturn(EXPECTED_RESPONSE_1);
 
         ResponseEntity<PlanetResponse> response = findPlanetsEndpoints.findById(EXPECTED_RESPONSE_1.id());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(EXPECTED_RESPONSE_1);
-    }
-
-    @Test
-    public void when_planet_not_exists_findById_should_return_status_code_404() {
-        String nonExistingId = "607a89fa7135a8d2cf3af7dd";
-        when(find.byId(nonExistingId)).thenReturn(Optional.empty());
-
-        ResponseEntity<PlanetResponse> response = findPlanetsEndpoints.findById(nonExistingId);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     private PlanetFilters filters(String name, String climate, String terrain) {

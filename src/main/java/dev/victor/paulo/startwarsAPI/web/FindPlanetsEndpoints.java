@@ -31,10 +31,10 @@ public class FindPlanetsEndpoints {
 
     @GetMapping("/{id}")
     public ResponseEntity<PlanetResponse> findById(@PathVariable String id) {
-        Optional<PlanetResponse> response = find.byId(id);
-        return response
-                .map(planetResponse -> ResponseEntity.status(HttpStatus.OK).body(planetResponse))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        PlanetResponse response = find.byId(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
 
     }
     private PlanetFilters filters(String name, String climate, String terrain) {

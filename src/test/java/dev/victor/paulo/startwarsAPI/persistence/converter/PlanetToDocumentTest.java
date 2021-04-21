@@ -14,7 +14,7 @@ class PlanetToDocumentTest {
 
     @Test
     void should_convert() {
-        Planet planet = new Planet("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert");
+        Planet planet = new Planet("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert", null);
 
         PlanetDocument planetDocument = PlanetToDocument.convert(planet);
 

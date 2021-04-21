@@ -29,12 +29,12 @@ class AllPlanetsPersistentTest {
     public static final String PLANET_CLIMATE = "Arid";
     public static final String PLANET_TERRAIN = "Desert";
 
-    public static final PlanetDocument EXPECTED_DOCUMENT_1 = new PlanetDocument("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert");
-    public static final PlanetDocument EXPECTED_DOCUMENT_2 = new PlanetDocument("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains");
-    public static final PlanetDocument EXPECTED_DOCUMENT_3 = new PlanetDocument("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests");
-    public static final Planet EXPECTED_PLANET_1 = new Planet("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert");
-    public static final Planet EXPECTED_PLANET_2 = new Planet("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains");
-    public static final Planet EXPECTED_PLANET_3 = new Planet("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests");
+    public static final PlanetDocument EXPECTED_DOCUMENT_1 = new PlanetDocument("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert", 5);
+    public static final PlanetDocument EXPECTED_DOCUMENT_2 = new PlanetDocument("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains", 2);
+    public static final PlanetDocument EXPECTED_DOCUMENT_3 = new PlanetDocument("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests", 1);
+    public static final Planet EXPECTED_PLANET_1 = new Planet("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert", 5);
+    public static final Planet EXPECTED_PLANET_2 = new Planet("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains", 2);
+    public static final Planet EXPECTED_PLANET_3 = new Planet("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests", 1);
 
     @MockBean
     private PlanetRepository repository;
@@ -44,11 +44,11 @@ class AllPlanetsPersistentTest {
 
     @Test
     public void should_add_planet() {
-        Planet planet = new Planet(null, PLANET_NAME, PLANET_CLIMATE, PLANET_TERRAIN);
-        Planet expectedAddedPlanet = new Planet(PLANET_ID, PLANET_NAME, PLANET_CLIMATE, PLANET_TERRAIN);
+        Planet planet = new Planet(null, PLANET_NAME, PLANET_CLIMATE, PLANET_TERRAIN, 5);
+        Planet expectedAddedPlanet = new Planet(PLANET_ID, PLANET_NAME, PLANET_CLIMATE, PLANET_TERRAIN, 5);
 
-        PlanetDocument planetDocumentToSave = new PlanetDocument(null, PLANET_NAME, PLANET_CLIMATE, PLANET_TERRAIN);
-        PlanetDocument expectedPlanedDocumentToSave = new PlanetDocument(PLANET_ID, PLANET_NAME, PLANET_CLIMATE, PLANET_TERRAIN);
+        PlanetDocument planetDocumentToSave = new PlanetDocument(null, PLANET_NAME, PLANET_CLIMATE, PLANET_TERRAIN, 5);
+        PlanetDocument expectedPlanedDocumentToSave = new PlanetDocument(PLANET_ID, PLANET_NAME, PLANET_CLIMATE, PLANET_TERRAIN, 5);
         when(repository.save(planetDocumentToSave)).thenReturn(expectedPlanedDocumentToSave);
 
 
@@ -58,8 +58,6 @@ class AllPlanetsPersistentTest {
         verify(repository).save(planetDocumentToSave);
         assertThat(addedPlanet).isEqualTo(expectedAddedPlanet);
     }
-
-//https://www.baeldung.com/queries-in-spring-data-mongodb
 
     @Test
     public void byFilters_should_build_query_example_and_return_planets() {
@@ -121,6 +119,6 @@ class AllPlanetsPersistentTest {
 
     private Example<PlanetDocument> expectedExampleFor(PlanetFilters filters) {
         ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
-        return Example.of(new PlanetDocument(null, filters.name(), filters.climate(), filters.terrain()), matcher);
+        return Example.of(new PlanetDocument(null, filters.name(), filters.climate(), filters.terrain(), null), matcher);
     }
 }

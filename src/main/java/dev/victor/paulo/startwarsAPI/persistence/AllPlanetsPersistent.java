@@ -10,10 +10,8 @@ import dev.victor.paulo.startwarsAPI.web.PlanetFilters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import javax.print.Doc;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,8 +48,8 @@ public class AllPlanetsPersistent implements AllPlanets {
     }
 
     private Example<PlanetDocument> exampleFor(PlanetFilters filters) {
-        String probe = filters.terrain();
         ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
-        return Example.of(new PlanetDocument(null, filters.name(), filters.climate(), probe), matcher);
+        PlanetDocument probe = new PlanetDocument(null, filters.name(), filters.climate(), filters.terrain(), null);
+        return Example.of(probe, matcher);
     }
 }

@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Mockito.verify;
@@ -21,9 +20,9 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class FindPlanetsEndpointsTest {
 
-    public static final PlanetResponse EXPECTED_RESPONSE_1 = new PlanetResponse("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert");
-    public static final PlanetResponse EXPECTED_RESPONSE_2 = new PlanetResponse("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains");
-    public static final PlanetResponse EXPECTED_RESPONSE_3 = new PlanetResponse("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests");
+    public static final PlanetResponse EXPECTED_RESPONSE_1 = new PlanetResponse("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert", null);
+    public static final PlanetResponse EXPECTED_RESPONSE_2 = new PlanetResponse("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains", null);
+    public static final PlanetResponse EXPECTED_RESPONSE_3 = new PlanetResponse("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests", null);
     @MockBean
     private FindPlanetsService find;
 

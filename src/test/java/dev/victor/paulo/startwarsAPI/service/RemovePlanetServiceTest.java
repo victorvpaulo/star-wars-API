@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class RemovePlanetServiceTest {
 
-    public static final Planet PLANET_1 = new Planet("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert");
+    public static final Planet PLANET_1 = new Planet("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert", 5);
 
     @MockBean
     private AllPlanets allPlanets;

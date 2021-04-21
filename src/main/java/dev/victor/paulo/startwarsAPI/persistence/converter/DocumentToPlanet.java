@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class DocumentToPlanet {
     public static Planet convert(PlanetDocument document) {
-        return new Planet(document.getId(), document.getName(), document.getClimate(), document.getTerrain());
+        return new Planet(document.getId(), document.getName(), document.getClimate(), document.getTerrain(), document.getNumberOfFilmAppearances());
     }
 
     public static List<Planet> convert(List<PlanetDocument> documents) {

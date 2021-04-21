@@ -23,12 +23,12 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class FindPlanetsServiceTest {
 
-    public static final Planet PLANET_1 = new Planet("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert");
-    public static final Planet PLANET_2 = new Planet("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains");
-    public static final Planet PLANET_3 = new Planet("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests");
-    public static final PlanetResponse EXPECTED_PLANET_RESPONSE_1 = new PlanetResponse("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert");
-    public static final PlanetResponse EXPECTED_PLANET_RESPONSE_2 = new PlanetResponse("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains");
-    public static final PlanetResponse EXPECTED_PLANET_RESPONSE_3 = new PlanetResponse("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests");
+    public static final Planet PLANET_1 = new Planet("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert", null);
+    public static final Planet PLANET_2 = new Planet("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains", null);
+    public static final Planet PLANET_3 = new Planet("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests", null);
+    public static final PlanetResponse EXPECTED_PLANET_RESPONSE_1 = new PlanetResponse("5399aba6e4b0ae375bfdca88", "Tatooine", "Arid", "Desert", null);
+    public static final PlanetResponse EXPECTED_PLANET_RESPONSE_2 = new PlanetResponse("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains", null);
+    public static final PlanetResponse EXPECTED_PLANET_RESPONSE_3 = new PlanetResponse("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests", null);
 
     @MockBean
     private AllPlanets allPlanets;

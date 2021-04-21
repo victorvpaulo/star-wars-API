@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class PlanetToResponse {
     public static PlanetResponse convert(Planet planet) {
-        return new PlanetResponse(planet.id(), planet.name(), planet.climate(), planet.terrain());
+        return new PlanetResponse(planet.id(), planet.name(), planet.climate(), planet.terrain(), planet.numberOfFilmAppearances());
     }
 
     public static List<PlanetResponse> convert(List<Planet> planets) {

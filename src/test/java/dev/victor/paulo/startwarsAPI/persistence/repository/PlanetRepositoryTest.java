@@ -18,8 +18,8 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 @DataMongoTest
 public class PlanetRepositoryTest {
 
-    public static final PlanetDocument PLANET_DOCUMENT_1 = new PlanetDocument("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains");
-    public static final PlanetDocument PLANET_DOCUMENT_2 = new PlanetDocument("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests");
+    public static final PlanetDocument PLANET_DOCUMENT_1 = new PlanetDocument("607a72495196adef1e2d094b", "Alderaan", "Temperate", "Grasslands, Mountains", 2);
+    public static final PlanetDocument PLANET_DOCUMENT_2 = new PlanetDocument("539a7244d9d5e4dea11d4ffe", "Yavin IV", "Temperate", "Jungle, Rainforests", 1);
     @Autowired
     private MongoTemplate mongoTemplate;
     @Autowired
@@ -37,7 +37,7 @@ public class PlanetRepositoryTest {
 
     @Test
     public void should_save_document() {
-        PlanetDocument document = new PlanetDocument(null, "Tatooine", "Arid", "Desert");
+        PlanetDocument document = new PlanetDocument(null, "Tatooine", "Arid", "Desert", 5);
 
 
         repository.save(document);
@@ -120,6 +120,6 @@ public class PlanetRepositoryTest {
 
     private Example<PlanetDocument> exampleWith(String name, String climate, String terrain) {
         ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
-        return Example.of(new PlanetDocument(null, name, climate, terrain), matcher);
+        return Example.of(new PlanetDocument(null, name, climate, terrain, null), matcher);
     }
 }

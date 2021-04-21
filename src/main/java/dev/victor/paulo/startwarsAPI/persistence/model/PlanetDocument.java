@@ -13,12 +13,14 @@ public class PlanetDocument {
     private final String name;
     private final String climate;
     private final String terrain;
+    private final Integer numberOfFilmAppearances;
 
-    public PlanetDocument(String id, String name, String climate, String terrain) {
+    public PlanetDocument(String id, String name, String climate, String terrain, Integer numberOfFilmAppearances) {
         this.id = id;
         this.name = name;
         this.climate = climate;
         this.terrain = terrain;
+        this.numberOfFilmAppearances = numberOfFilmAppearances;
     }
 
     public String getId() {
@@ -35,6 +37,10 @@ public class PlanetDocument {
 
     public String getTerrain() {
         return terrain;
+    }
+
+    public Integer getNumberOfFilmAppearances() {
+        return numberOfFilmAppearances;
     }
 
     @Override

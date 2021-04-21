@@ -1,4 +1,11 @@
 package dev.victor.paulo.startwarsAPI.web.dto;
 
-public record PlanetResponse(String id, String name, String climate, String terrain, Integer numberOfFilmAppearances) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record PlanetResponse(
+        @JsonProperty("id") String id,
+        @JsonProperty("name") String name,
+        @JsonProperty("climate") String climate,
+        @JsonProperty("terrain") String terrain,
+        @JsonProperty("numberOfFilmAppearances") Integer numberOfFilmAppearances) {
 }

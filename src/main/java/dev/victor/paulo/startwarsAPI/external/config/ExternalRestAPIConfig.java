@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class ExternalRestAPIConfig {
 
-    @Value("external.api.path")
+    @Value("${external.api.path}")
     private String EXTERNAL_API_BASE_URI;
 
     @Bean

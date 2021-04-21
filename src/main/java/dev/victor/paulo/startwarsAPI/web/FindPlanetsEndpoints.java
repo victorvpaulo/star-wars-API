@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController()
 @RequestMapping("/planets")
@@ -18,9 +17,9 @@ public class FindPlanetsEndpoints {
     private FindPlanetsService find;
 
     @GetMapping
-    public ResponseEntity<List<PlanetResponse>> findByFilters(@RequestParam("name") String name,
-                                                              @RequestParam("climate") String climate,
-                                                              @RequestParam("terrain") String terrain) {
+    public ResponseEntity<List<PlanetResponse>> findByFilters(@RequestParam(value = "name", required = false) String name,
+                                                              @RequestParam(value = "climate", required = false) String climate,
+                                                              @RequestParam(value = "terrain", required = false) String terrain) {
 
         PlanetFilters filters = filters(name, climate, terrain);
         List<PlanetResponse> allPlanets = find.byFilters(filters);

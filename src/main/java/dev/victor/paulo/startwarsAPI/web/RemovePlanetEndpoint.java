@@ -13,8 +13,8 @@ public class RemovePlanetEndpoint {
     private RemovePlanetService remove;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remove(@PathVariable  String planetId) {
-        remove.byId(planetId);
+    public ResponseEntity<Void> remove(@PathVariable String id) {
+        remove.byId(id);
 
         return ResponseEntity
                 .noContent()

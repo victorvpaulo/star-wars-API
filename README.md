@@ -1,5 +1,7 @@
 # API DE PLANETAS STAR WARS
 
+**Autor**: Victor Vieira Paulo
+
 ## 1 - Endpoints disponíveis:
 
     - POST <host>/api/star-wars/planets

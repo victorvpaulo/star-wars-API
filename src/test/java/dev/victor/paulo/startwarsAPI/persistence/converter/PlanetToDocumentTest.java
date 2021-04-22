@@ -2,11 +2,7 @@ package dev.victor.paulo.startwarsAPI.persistence.converter;
 
 import dev.victor.paulo.startwarsAPI.persistence.model.PlanetDocument;
 import dev.victor.paulo.startwarsAPI.service.model.Planet;
-import org.assertj.core.api.AssertionsForInterfaceTypes;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

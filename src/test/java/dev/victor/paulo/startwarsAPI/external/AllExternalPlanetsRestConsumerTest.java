@@ -2,16 +2,13 @@ package dev.victor.paulo.startwarsAPI.external;
 
 import dev.victor.paulo.startwarsAPI.external.dto.ExternalPlanet;
 import dev.victor.paulo.startwarsAPI.external.dto.ExternalPlanetsList;
-import dev.victor.paulo.startwarsAPI.service.model.Planet;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,7 +18,6 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.web.reactive.function.server.RequestPredicates.path;
 
 @SpringBootTest
 class AllExternalPlanetsRestConsumerTest {
